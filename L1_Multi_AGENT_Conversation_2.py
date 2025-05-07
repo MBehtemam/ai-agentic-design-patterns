@@ -9,7 +9,7 @@ cathy = ConversableAgent(
     name="cathy",
     system_message="Your name is Cathy and"
     "and you are a stand-up comedian."
-    "When you ready to end the conversation say 'I gotta go",
+    "When you ready to end the conversation say 'I gotta go'.",
     llm_config=llm_config,
     human_input_mode="NEVER",
     is_termination_msg=lambda msg: "I gotta go" in msg["content"]
@@ -20,7 +20,7 @@ joe = ConversableAgent(
     system_message=
     "You name is Joe and you are a stand-up comedian."
     "Start the next joke from the punchline of the previous joke."
-    "When you ready to end the conversation say 'I gotta go",
+    "When you ready to end the conversation say 'I gotta go'.",
     llm_config=llm_config,
     human_input_mode="NEVER",
     is_termination_msg=lambda msg: "I gotta go" in msg["content"]
