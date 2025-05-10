@@ -84,3 +84,40 @@ def plot_stock_prices(stock_prices, filename):
     plt.ylabel("Price")
     plt.grid(True)
     plt.savefig(filename)
+
+    
+executor = LocalCommandLineCodeExecutor(
+    timeout=60,
+    work_dir="coding",
+    functions=[get_stock_prices, plot_stock_prices]
+)
+
+code_writer_agent_system_message += executor.format_functions_for_prompt()
+print("NEW Executor\n")
+print(code_writer_agent_system_message)
+
+code_writer_agent = ConversableAgent(
+    name="code_writer_agent",
+    system_message=code_writer_agent_system_message,
+    llm_config=llm_config,
+    code_execution_config=False,
+    human_input_mode="NEVER"
+)
+
+code_executor_agent = ConversableAgent(
+    name="code_executor_agent",
+    llm_config=False,
+    code_execution_config={ "executor": executor},
+    human_input_mode="ALWAYS",
+    default_auto_reply="Please continue. If everything is done, reply 'TERMINATE'"
+)
+
+chat_result = code_executor_agent.initiate_chat(
+    code_writer_agent,
+    message=f"Today is {today}."
+    "Download the stock prices YTD for NVDA and TSLA and create "
+    "a plot. Make sure the code is in markdown code block and "
+    "save the figure to a file stock_prices_YTD_plot.png."
+)
+
+Image(os.path.join("coding", "stock_prices_YTD_plot.png"))
