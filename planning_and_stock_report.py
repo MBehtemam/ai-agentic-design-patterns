@@ -43,7 +43,7 @@ executor = autogen.ConversableAgent(
     code_execution_config={
         "last_n_messages":3,
         "work_dir": "coding",
-        "user_docker": False
+        "use_docker": False
     }
 )
 
